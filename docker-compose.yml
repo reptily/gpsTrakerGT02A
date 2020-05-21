@@ -1,0 +1,35 @@
+version: '3'
+services:
+  #ClickHouse
+  clickhouse:
+    image: yandex/clickhouse-server
+    container_name: clickhouse-gps
+    restart: unless-stopped
+    volumes:
+      - .db:/var/lib/clickhouse
+    ports:
+      - "8192:8192"
+      - "8123:8123"
+    networks:
+      - gps-network
+  #GPS Server - node.js
+  gps-server:
+    image: node:12
+    container_name: gps-server
+    volumes:
+      - .:/home/node/app
+    ports:
+      - "6666:6666"
+      - "8008:8008"
+    networks:
+      - gps-network
+    working_dir: /home/node/app
+    command: npm start
+##Docker Networks
+networks:
+  gps-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    </head>
+    <body>
+    gpsTrakerGT02A
+
+    <div id="map"style="width: 500px; height: 500px"></div>
+        <script>
+            var mapToken = '';
+            var wsToken =  '';
+
+            var map = L.map('map', {
+                /*center: [mapCenterLat, mapCenterLon],*/
+                zoom: 11
+            });
+
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapToken, {
+                maxZoom: 18,
+                id: 'mapbox.streets'
+            }).addTo(map);
+
+            var ws = new WebSocket("ws://127.0.0.1:8008");
+            ws.onopen = function (event) {
+                ws.send(JSON.stringify({
+                    type: "auth",
+                    token: wsToken,
+                }));
+
+                ws.onmessage = function (event) {
+                    var msg = JSON.parse(event.data);
+                    console.log(msg);
+
+                    if(msg.type === "location") {
+
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
