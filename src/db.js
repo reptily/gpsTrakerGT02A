@@ -1,10 +1,21 @@
-const {ClickHouse} = require('clickhouse');
+const dbinterface = require('reptily-dbinterface');
 const config = require("../config");
 
-const DB = new ClickHouse(config.db);
+let DB = null;
+new dbinterface("mongodb").Connect(config.db, (model, err) => {       
+  if (err) throw err;
+  DB = model;
+});
 
 module.exports = {
     saveLocation(date, timestamp, lat, lng, speed, course){
-        DB.query(`INSERT INTO gps VALUES('${date}', '${timestamp}', '${lat}', '${lng}', '${speed}', '${course}');`).toPromise();
+        DB.location.Insert({
+            date,
+            timestamp,
+            lat,
+            lng,
+            speed,
+            course,
+        });
     },
-}
+};

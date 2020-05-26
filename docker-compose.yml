@@ -1,15 +1,14 @@
 version: '3'
 services:
-  #ClickHouse
-  clickhouse:
-    image: yandex/clickhouse-server
-    container_name: clickhouse-gps
-    restart: unless-stopped
+  #Mongo
+  mongo:
+    image: mongo
+    container_name: mongo-gps
+    restart: always
     volumes:
-      - .db:/var/lib/clickhouse
+      - .db:/var/lib/mongodb
     ports:
-      - "8192:8192"
-      - "8123:8123"
+      - "27017:27017"
     networks:
       - gps-network
   #GPS Server - node.js

@@ -5,14 +5,15 @@
   "main": "src/index.js",
   "scripts": {
     "test": "node src/test.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "migrate": "node migrate/create_collections.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "async": "^3.2.0",
-    "clickhouse": "^2.1.3",
     "net": "^1.0.2",
+    "reptily-dbinterface": "^1.3.3",
     "ws": "^7.3.0"
   }
 }
